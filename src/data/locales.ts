@@ -1,6 +1,15 @@
 export const languages = { en: "English", fa: "فارسی", ar: "العربية" };
 export const copy = {
   en: {
+    searchHints: [
+      "Search a word, topic, root, or 2:84",
+      "Search verse text or a reference, such as 2:84",
+      "Search an Arabic root or its meaning",
+      "Search a term or a common translation",
+      "Search a topic or related idea",
+      "Search article titles or subjects",
+    ],
+    verseAdjusted: "This chapter has {max} verses. Selected verse {verse}.",
     menu: "Menu",
     search: "Search & Go",
     language: "Language",
@@ -14,7 +23,7 @@ export const copy = {
     title: "A space to read.",
     title2: "A reason to reflect.",
     intro:
-      "Explore the Qur’an through its words and their connections. Read, question, and reflect—with room for understanding and coexistence.",
+      "Explore the Qur’an through its words and their connections. Reflect on our shared humanity and The One God we seek through our own scriptures.",
     start: "Read the Qur’an",
     method: "Our approach",
     explore: "Explore The Furqan",
@@ -72,6 +81,15 @@ export const copy = {
       "We examine Qur’anic words in context and alongside related verses. Translation is kept separate from reflection. Our explanations are human efforts, open to examination and revision.",
   },
   fa: {
+    searchHints: [
+      "واژه، موضوع، ریشه یا ۲:۸۴",
+      "متن آیه یا شماره آن، مانند ۲:۸۴",
+      "ریشه عربی یا معنای آن",
+      "اصطلاح یا ترجمه رایج آن",
+      "موضوع یا مفهوم مرتبط",
+      "عنوان مقاله یا موضوع آن",
+    ],
+    verseAdjusted: "این سوره {max} آیه دارد. آیه {verse} انتخاب شد.",
     menu: "فهرست",
     search: "جستجو و رفتن",
     language: "زبان",
@@ -103,13 +121,13 @@ export const copy = {
       "درباره ایمان، جامعه، عدالت و زندگی مشترک بیندیشید.",
     ],
     numbers: ["۰۱", "۰۲", "۰۳", "۰۴"],
-    trust: "فهم با گشودگی آغاز می‌شود.",
+    trust: "تعصب و پیش‌فرض‌ها مانع فهم و رشد می‌شوند.",
     trustText:
-      "پروژه‌ای مستقل و غیرتجاری برای مطالعه سنجیده، صلح و همزیستی میان پیروان ایمان‌های گوناگون.",
+      "پنجره‌ای مستقل و غیروابسته برای مطالعه، تفکر و تدبر؛ در راستای صلح و همزیستی میان خداباوران و موحدان.",
     principles: [
-      "فهم قرآن از راه قرآن",
-      "جدایی ترجمه از تأمل",
-      "فهم انسانی و بازنگری‌پذیر",
+      "تفسیر قرآن با قرآن",
+      "جداسازی ترجمه از پیش‌فرض‌های مترجم",
+      "تأویل بدون وابستگی به منابع متأخر و بیرون از قرآن",
     ],
     about: "آشنایی با ما",
     methodology: "روش‌شناسی",
@@ -119,7 +137,7 @@ export const copy = {
     empty:
       "هنوز مطالعه‌ای ذخیره نشده است. نشانک‌ها و ادامه مطالعه همراه با بخش خواندن فعال خواهند شد.",
     development: "در حال توسعه",
-    footer: "سنجیده بخوانیم؛ در خیر همزیستی کنیم.",
+    footer: "مسئولانه بخوانیم؛ در نیکی پیش‌قدم شویم.",
     searchHint: "واژه، موضوع، ریشه یا ۲:۸۴",
     direct: "رفتن مستقیم به آیه",
     chapter: "سوره",
@@ -143,6 +161,15 @@ export const copy = {
       "واژه‌های قرآن را در سیاق و در کنار آیات مرتبط بررسی می‌کنیم. ترجمه از تأمل جداست. توضیح‌های ما تلاش انسانی و نیازمند بررسی و بازنگری است.",
   },
   ar: {
+    searchHints: [
+      "كلمة، موضوع، جذر، أو ٢:٨٤",
+      "نص آية أو مرجعها، مثل ٢:٨٤",
+      "جذر عربي أو معناه",
+      "مصطلح أو ترجمة شائعة له",
+      "موضوع أو فكرة ذات صلة",
+      "عنوان مقال أو موضوعه",
+    ],
+    verseAdjusted: "تضم هذه السورة {max} آية. تم اختيار الآية {verse}.",
     menu: "القائمة",
     search: "بحث وانتقال",
     language: "اللغة",
@@ -174,13 +201,13 @@ export const copy = {
       "ابحث في مسائل الإيمان والمجتمع والعدل والحياة المشتركة.",
     ],
     numbers: ["٠١", "٠٢", "٠٣", "٠٤"],
-    trust: "يبدأ الفهم بالانفتاح.",
+    trust: "التعصّب والأحكام المسبقة يعوقان الفهم والنموّ.",
     trustText:
-      "مشروع مستقل وغير تجاري يشجّع الدراسة المتأنّية والسلام والتعايش بين أتباع الأديان.",
+      "نافذة مستقلة لا تتبع أي جهة، للدراسة والتفكّر والتدبّر؛ سعيًا إلى السلام والتعايش بين المؤمنين بالله والموحّدين.",
     principles: [
-      "فهم القرآن بالقرآن",
-      "فصل الترجمة عن التأمّل",
-      "فهم بشري قابل للمراجعة",
+      "تفسير القرآن بالقرآن",
+      "فصل الترجمة عن افتراضات المترجم المسبقة",
+      "التأويل دون الارتهان لمصادر متأخرة أو من خارج القرآن",
     ],
     about: "التعريف بالمشروع",
     methodology: "المنهج",
@@ -190,7 +217,7 @@ export const copy = {
     empty:
       "لا توجد قراءات محفوظة بعد. ستتوفر المحفوظات ومتابعة القراءة مع قسم القراءة.",
     development: "قيد التطوير",
-    footer: "نقرأ بتدبّر، ونتعايش في الخير.",
+    footer: "لنقرأ بمسؤولية، ولنبادر إلى الخير.",
     searchHint: "كلمة، موضوع، جذر، أو ٢:٨٤",
     direct: "انتقل مباشرة إلى آية",
     chapter: "السورة",
@@ -208,6 +235,6 @@ export const copy = {
     aboutText:
       "يدعو الفرقان إلى دراسة مستقلة للقرآن، ملتزمًا بالسلام والخير والتعايش بين المجتمعات الإيمانية.",
     methodText:
-      "ندرس كلمات القرآن في سياقها وبالرجوع إلى الآيات ذات الصلة. نفصل الترجمة عن التأمّل. وتبقى شروحنا جهودًا بشرية قابلة للفحص والمراجعة.",
+      "ندرس كلمات القرآن في سياقها وبالرجوع إلى الآيات ذات الصلة. نفصل الترجمة عن افتراضات المترجم المسبقة. وتبقى شروحنا جهودًا بشرية قابلة للفحص والمراجعة.",
   },
 };

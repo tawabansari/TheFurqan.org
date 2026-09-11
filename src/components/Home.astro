@@ -246,15 +246,7 @@ const icon = {
           ×
         </button>
       </div>
-      <input
-        id="query"
-        class="search-input"
-        type="search"
-        placeholder={c.searchHint}
-        aria-label={c.search}
-        autocomplete="off"
-      />
-      <form id="jump" class="jump">
+      <form id="jump" class="jump" novalidate>
         <p>{c.direct}</p>
         <div class="fields">
           <label>
@@ -273,7 +265,7 @@ const icon = {
             </select>
           </label>
           <label>
-            {c.verse}
+            {c.verse} · <bdi id="verse-range">1–7</bdi>
             <input
               id="verse"
               type="number"
@@ -288,6 +280,7 @@ const icon = {
             {c.go}
           </button>
         </div>
+        <p id="verse-notice" class="note" role="status"></p>
       </form>
       <div class="filters" aria-label={c.search}>
         {c.filters.map((s, i) => (
@@ -300,6 +293,14 @@ const icon = {
           </button>
         ))}
       </div>
+      <input
+        id="query"
+        class="search-input"
+        type="search"
+        placeholder={c.searchHint}
+        aria-label={c.search}
+        autocomplete="off"
+      />
       <p class="note">{c.searchNote}</p>
       <div id="results" aria-live="polite"></div>
     </dialog>
@@ -417,17 +418,50 @@ const icon = {
             save("furqan-language", a.dataset.language),
           ),
         );
-      $("chapter").onchange = () => {
-        $("verse").max = surahs[Number($("chapter").value) - 1].ayahs;
+      const formatNumber = (n) =>
+        new Intl.NumberFormat(lang, { useGrouping: false }).format(n);
+      function chapterChanged() {
+        const max = surahs[Number($("chapter").value) - 1].ayahs;
+        $("verse").max = max;
         $("verse").value = "1";
-      };
-      function passage(ch, v) {
-        info(c.visit + " " + ch + ":" + v, c.unavailable);
+        $("verse-range").textContent =
+          formatNumber(1) + "–" + formatNumber(max);
+        $("verse-notice").textContent = "";
+      }
+      $("chapter").onchange = chapterChanged;
+      chapterChanged();
+      function clampVerse() {
+        const input = $("verse");
+        const raw = input.valueAsNumber;
+        const max = Number(input.max);
+        const verse = Number.isFinite(raw)
+          ? Math.max(1, Math.min(max, Math.trunc(raw)))
+          : 1;
+        input.value = String(verse);
+        if (raw !== verse)
+          $("verse-notice").textContent = c.verseAdjusted
+            .replace("{max}", formatNumber(max))
+            .replace("{verse}", formatNumber(verse));
+        return verse;
+      }
+      $("verse").addEventListener("blur", clampVerse);
+      $("verse").addEventListener("input", () => {
+        $("verse-notice").textContent = "";
+      });
+      function passage(ch, v, notice = "") {
+        info(
+          c.visit + " " + ch + ":" + v,
+          [notice, c.unavailable].filter(Boolean).join(" "),
+        );
       }
       $("jump").onsubmit = (e) => {
         e.preventDefault();
-        if ($("jump").reportValidity())
-          passage(Number($("chapter").value), Number($("verse").value));
+        const verse = clampVerse();
+        passage(
+          Number($("chapter").value),
+          verse,
+          $("verse-notice").textContent,
+        );
       };
       let filter = 0;
       function normalize(s) {
@@ -474,6 +508,7 @@ const icon = {
         (b) =>
           (b.onclick = () => {
             filter = Number(b.dataset.filter);
+            $("query").placeholder = c.searchHints[filter];
             document
               .querySelectorAll("[data-filter]")
               .forEach((x) => x.setAttribute("aria-pressed", String(x === b)));

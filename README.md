@@ -39,3 +39,11 @@ Licensing for original content and source code is pending; third-party dependenc
 - Fonts are self-hosted; their individual OFL notices are in `public/fonts/`.
 
 Change shared theme variables rather than adding page-specific light/dark overrides. Keep quotation labels visible: color alone must never identify scripture.
+
+## Search roadmap and editorial conventions
+
+Search has its own future development phase. Keep search data local to this project. Plan shared identifiers for verses, roots and topics; independently authored language versions; multilingual aliases, common translations and spelling variants. Ranking should favor the page language without excluding strong matches in other languages. Search aliases are discovery aids, not assertions of correct translations. Advanced matching is not implemented yet.
+
+In English, the definite article is part of divine names: write **The God** and **The One God** with capitalized **The**.
+
+The search panel presents chapter/verse navigation, filters (All initially selected), the query, then results. Filter hints change without clearing the query. Verse numbers are corrected to the chapter range on blur or submission, with a localized explanation.

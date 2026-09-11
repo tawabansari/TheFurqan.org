@@ -645,3 +645,10 @@ input[type="number"] {
   border-inline-start: 3px solid var(--accent);
   padding-inline-start: 1rem;
 }
+
+.filters + .search-input {
+  margin-top: 14px;
+}
+#verse-notice:empty {
+  display: none;
+}
