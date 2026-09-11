@@ -67,21 +67,29 @@ const icon = {
           </svg>
         </button>
         <a class="brand" href={`/${lang}/`} aria-label="The Furqan — الفرقان">
-          <span class="brand-english" lang="en" dir="ltr">The Furqan</span>
-          <span class="brand-arabic" lang="ar" dir="rtl">الفرقان</span>
+          <span class="brand-english" lang="en" dir="ltr">
+            The Furqan
+          </span>
+          <span class="brand-arabic" lang="ar" dir="rtl">
+            الفرقان
+          </span>
         </a>
+        <button
+          class="plain language-control"
+          data-open="languages"
+          aria-label={c.languages}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d={icon.globe} />
+          </svg>
+          {languages[lang]} <span aria-hidden="true">⌄</span>
+        </button>
         <div class="tools">
           <button class="plain" data-open="search" aria-label={c.search}>
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d={icon.search} />
             </svg>
             <span class="search-label">{c.search}</span>
-          </button>
-          <button class="plain" data-open="languages" aria-label={c.languages}>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d={icon.globe} />
-            </svg>
-            {languages[lang]} <span aria-hidden="true">⌄</span>
           </button>
           <div class="size-controls">
             <button
@@ -102,7 +110,9 @@ const icon = {
             </button>
           </div>
           <button id="theme" class="circle" aria-label={c.dark} title={c.dark}>
-            <span aria-hidden="true">☾</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path id="theme-path" d="M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11" />
+            </svg>
           </button>
         </div>
       </div>
@@ -252,63 +262,127 @@ const icon = {
           ×
         </button>
       </div>
-      <form id="jump" class="jump" novalidate>
-        <p>{c.direct}</p>
-        <div class="fields">
-          <label>
-            {c.chapter}
-            <select id="chapter">
-              {surahs.map((s) => (
-                <option value={s.number}>
-                  {new Intl.NumberFormat(lang, {useGrouping:false, numberingSystem: lang === "ar" ? "arab" : lang === "fa" ? "arabext" : "latn"}).format(s.number)}.{" "}
-                  {lang === "en"
-                    ? `${s.enName} — ${s.enMeaning}`
-                    : lang === "fa"
-                      ? `${s.faName} — ${s.faMeaning}`
-                      : s.arName}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>{c.verse} · <bdi id="verse-range">1–7</bdi></span>
-            <input
-              id="verse"
-              type="text"
-              data-max="7"
-              dir="ltr"
-              value="1"
-              required
-              inputmode="numeric"
-            />
-          </label>
-          <button class="primary" type="submit">
-            {c.go}
-          </button>
+      <div id="search-body">
+        <form id="jump" class="jump" novalidate>
+          <p>{c.direct}</p>
+          <div class="fields">
+            <label>
+              {c.chapter}
+              <input id="chapter" type="hidden" value="1" />
+              <button
+                id="chapter-picker"
+                type="button"
+                aria-haspopup="dialog"
+                aria-expanded="false"
+              >
+                <span id="chapter-selected"></span>
+                <span aria-hidden="true">⌄</span>
+              </button>
+            </label>
+            <label>
+              <span>
+                {c.verse} · <bdi id="verse-range">1–7</bdi>
+              </span>
+              <input
+                id="verse"
+                type="text"
+                data-max="7"
+                dir="ltr"
+                value="1"
+                required
+                inputmode="numeric"
+              />
+            </label>
+            <button class="primary" type="submit">
+              {c.go}
+            </button>
+          </div>
+          <p id="verse-notice" class="note" role="status"></p>
+        </form>
+        <div class="filters" aria-label={c.search}>
+          {c.filters.map((s, i) => (
+            <button
+              class="chip"
+              data-filter={i}
+              aria-pressed={i === 0 ? "true" : "false"}
+            >
+              {s}
+            </button>
+          ))}
         </div>
-        <p id="verse-notice" class="note" role="status"></p>
-      </form>
-      <div class="filters" aria-label={c.search}>
-        {c.filters.map((s, i) => (
-          <button
-            class="chip"
-            data-filter={i}
-            aria-pressed={i === 0 ? "true" : "false"}
-          >
-            {s}
-          </button>
-        ))}
+        <input
+          id="query"
+          class="search-input"
+          type="search"
+          placeholder={c.searchHint}
+          aria-label={c.search}
+          autocomplete="off"
+        />
+        <p class="note">{c.searchNote}</p>
+        <div id="results" aria-live="polite"></div>
       </div>
-      <input
-        id="query"
-        class="search-input"
-        type="search"
-        placeholder={c.searchHint}
-        aria-label={c.search}
-        autocomplete="off"
-      />
-      <p class="note">{c.searchNote}</p>
-      <div id="results" aria-live="polite"></div>
+      <section id="chapter-panel" hidden aria-labelledby="chapter-panel-title">
+        <div class="picker-top">
+          <button type="button" id="chapter-back" class="secondary">
+            {lang === "en" ? "Back" : lang === "fa" ? "بازگشت" : "رجوع"}
+          </button>
+          <h3 id="chapter-panel-title" tabindex="-1">
+            {c.chapter}
+          </h3>
+        </div>
+        <input
+          id="chapter-query"
+          type="search"
+          class="search-input"
+          aria-label={c.chapter}
+          placeholder={
+            lang === "en"
+              ? "Chapter number, name, or meaning"
+              : lang === "fa"
+                ? "شماره، نام یا معنی سوره"
+                : "رقم السورة أو اسمها"
+          }
+        />
+        <div id="chapter-options">
+          {surahs.map((s) => (
+            <button
+              type="button"
+              class="chapter-option"
+              data-chapter={s.number}
+              aria-pressed={s.number === 1 ? "true" : "false"}
+            >
+              <span class="chapter-number">
+                {new Intl.NumberFormat(lang, {
+                  numberingSystem:
+                    lang === "fa" ? "arabext" : lang === "ar" ? "arab" : "latn",
+                }).format(s.number)}
+              </span>
+              <span class="chapter-copy">
+                <strong>
+                  {lang === "en"
+                    ? s.enName
+                    : lang === "fa"
+                      ? s.faName
+                      : s.arName}
+                </strong>
+                {lang !== "ar" && (
+                  <span>{lang === "en" ? s.enMeaning : s.faMeaning}</span>
+                )}
+              </span>
+              <span class="chapter-check" aria-hidden="true">
+                ✓
+              </span>
+            </button>
+          ))}
+        </div>
+        <p id="chapter-empty" class="note" hidden>
+          {lang === "en"
+            ? "No matching chapters."
+            : lang === "fa"
+              ? "سوره‌ای یافت نشد."
+              : "لم يتم العثور على سورة."}
+        </p>
+      </section>
     </dialog>
     <dialog id="info" aria-labelledby="info-title">
       <div class="dialog-head">
@@ -354,9 +428,14 @@ const icon = {
         active?.close();
         $(id).showModal();
         if (id === "search") {
+          $("search-body").hidden = false;
+          $("chapter-panel").hidden = true;
+          $("chapter-picker").setAttribute("aria-expanded", "false");
           // Avoid opening the phone keyboard or native select before the user chooses.
           const mobile = matchMedia("(max-width: 600px)").matches;
-          $(mobile ? "search-title" : reading ? "chapter" : "query").focus({
+          $(
+            mobile ? "search-title" : reading ? "chapter-picker" : "query",
+          ).focus({
             preventScroll: true,
           });
           $("search").scrollTop = 0;
@@ -441,7 +520,12 @@ const icon = {
       }
       function theme() {
         const dark = document.documentElement.dataset.theme === "dark";
-        $("theme").firstElementChild.textContent = dark ? "☀" : "☾";
+        $("theme-path").setAttribute(
+          "d",
+          dark
+            ? "M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6 7 7m10 10 1.4 1.4M5.6 18.4 7 17m10-10 1.4-1.4M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0"
+            : "M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11",
+        );
         $("theme").setAttribute("aria-label", dark ? c.light : c.dark);
         $("theme").title = dark ? c.light : c.dark;
       }
@@ -475,16 +559,123 @@ const icon = {
           ),
         );
       const formatNumber = (n) =>
-        new Intl.NumberFormat(lang, {useGrouping:false, numberingSystem: lang === "ar" ? "arab" : lang === "fa" ? "arabext" : "latn"}).format(n);
+        new Intl.NumberFormat(lang, {
+          useGrouping: false,
+          numberingSystem:
+            lang === "ar" ? "arab" : lang === "fa" ? "arabext" : "latn",
+        }).format(n);
       function chapterChanged() {
-        const max = surahs[Number($("chapter").value) - 1].ayahs;
+        const selected = surahs[Number($("chapter").value) - 1];
+        const max = selected.ayahs;
+        const name =
+          lang === "en"
+            ? selected.enName
+            : lang === "fa"
+              ? selected.faName
+              : selected.arName;
+        const meaning =
+          lang === "en"
+            ? selected.enMeaning
+            : lang === "fa"
+              ? selected.faMeaning
+              : "";
+        $("chapter-selected").textContent =
+          formatNumber(selected.number) +
+          ". " +
+          name +
+          (meaning ? " - " + meaning : "");
+        document
+          .querySelectorAll("[data-chapter]")
+          .forEach((b) =>
+            b.setAttribute(
+              "aria-pressed",
+              String(Number(b.dataset.chapter) === selected.number),
+            ),
+          );
         $("verse").dataset.max = String(max);
         $("verse").value = "1";
         $("verse-range").textContent =
           formatNumber(1) + "–" + formatNumber(max);
         $("verse-notice").textContent = "";
       }
-      $("chapter").onchange = chapterChanged;
+      function showChapters(show) {
+        $("search-body").hidden = show;
+        $("chapter-panel").hidden = !show;
+        $("chapter-picker").setAttribute("aria-expanded", String(show));
+        if (show) {
+          $("chapter-query").value = "";
+          filterChapters();
+          $(
+            matchMedia("(max-width:600px)").matches
+              ? "chapter-panel-title"
+              : "chapter-query",
+          ).focus({ preventScroll: true });
+        } else $("chapter-picker").focus({ preventScroll: true });
+        $("search").scrollTop = 0;
+      }
+      function filterChapters() {
+        const query = normalize($("chapter-query").value)
+          .replace(/[ي]/g, "ی")
+          .replace(/ك/g, "ک");
+        let count = 0;
+        document.querySelectorAll("[data-chapter]").forEach((b) => {
+          const s = surahs[Number(b.dataset.chapter) - 1];
+          const hay = normalize(
+            [
+              s.number,
+              s.enName,
+              s.faName,
+              s.arName,
+              s.enMeaning,
+              s.faMeaning,
+              s.aliases,
+            ].join(" "),
+          )
+            .replace(/ي/g, "ی")
+            .replace(/ك/g, "ک");
+          b.hidden = !!query && !hay.includes(query);
+          if (!b.hidden) count++;
+        });
+        $("chapter-empty").hidden = count > 0;
+      }
+      $("chapter-picker").onclick = () => showChapters(true);
+      $("chapter-back").onclick = () => showChapters(false);
+      $("chapter-query").oninput = filterChapters;
+      document.querySelectorAll("[data-chapter]").forEach(
+        (b) =>
+          (b.onclick = () => {
+            $("chapter").value = b.dataset.chapter;
+            chapterChanged();
+            showChapters(false);
+          }),
+      );
+      $("chapter-options").addEventListener("keydown", (e) => {
+        if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) return;
+        e.preventDefault();
+        const buttons = [...document.querySelectorAll("[data-chapter]")].filter(
+          (b) => !b.hidden,
+        );
+        const i = buttons.indexOf(document.activeElement);
+        const next =
+          e.key === "Home"
+            ? 0
+            : e.key === "End"
+              ? buttons.length - 1
+              : Math.max(
+                  0,
+                  Math.min(
+                    buttons.length - 1,
+                    i + (e.key === "ArrowDown" ? 1 : -1),
+                  ),
+                );
+        buttons[next]?.focus();
+      });
+      $("search").addEventListener("cancel", (e) => {
+        if (!$("chapter-panel").hidden) {
+          e.preventDefault();
+          showChapters(false);
+        }
+      });
       chapterChanged();
       function clampVerse() {
         const input = $("verse");
