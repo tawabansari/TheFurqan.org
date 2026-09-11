@@ -137,7 +137,7 @@ const icon = {
               </h1>
               <p class="intro">{c.intro}</p>
               <div class="actions">
-                <button class="primary" data-open="search">
+                <button class="primary" data-section="0">
                   {c.start}
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d={icon.arrow} />
@@ -260,7 +260,9 @@ const icon = {
     </dialog>
     <dialog id="search" aria-labelledby="search-title">
       <div class="dialog-head">
-        <h2 id="search-title">{c.search}</h2>
+        <h2 id="search-title" tabindex="-1">
+          {c.search}
+        </h2>
         <button class="circle" data-close aria-label={c.close}>
           ×
         </button>
@@ -275,10 +277,10 @@ const icon = {
                 <option value={s.number}>
                   {s.number}.{" "}
                   {lang === "en"
-                    ? s.enName
-                    : lang === "ar"
-                      ? s.arName
-                      : s.faName}
+                    ? `${s.enMeaning} — ${s.enName}`
+                    : lang === "fa"
+                      ? `${s.faMeaning} — ${s.faName}`
+                      : s.arName}
                 </option>
               ))}
             </select>
@@ -361,12 +363,19 @@ const icon = {
       const $ = (id) => document.getElementById(id);
       let trigger = null;
       const sizes = [80, 90, 100, 110, 120, 130];
-      function open(id) {
+      function open(id, reading = false) {
         const active = document.querySelector("dialog[open]");
         if (!active) trigger = document.activeElement;
         active?.close();
         $(id).showModal();
-        if (id === "search") $("query").focus();
+        if (id === "search") {
+          // Avoid opening the phone keyboard or native select before the user chooses.
+          const mobile = matchMedia("(max-width: 600px)").matches;
+          $(mobile ? "search-title" : reading ? "chapter" : "query").focus({
+            preventScroll: true,
+          });
+          $("search").scrollTop = 0;
+        }
       }
       function info(title, body) {
         $("info-title").textContent = title;
@@ -375,8 +384,7 @@ const icon = {
       }
       function section(i) {
         if (i === 0) {
-          open("search");
-          $("chapter").focus();
+          open("search", true);
         } else info(c.sections[i], c.unavailable);
       }
       document.addEventListener("click", (e) => {
@@ -536,6 +544,7 @@ const icon = {
       function results() {
         const q = normalize($("query").value.trim());
         $("results").replaceChildren();
+        if (!q) return;
         const ref = q.match(/^(\d{1,3})\s*[:：]\s*(\d{1,3})$/);
         if (ref) {
           const ch = Number(ref[1]),

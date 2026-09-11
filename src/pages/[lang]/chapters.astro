@@ -18,8 +18,15 @@ const title = {
     <div class="chapter-list">
       {surahs.map((s) => (
         <a href={`/${lang}/${s.number}/`}>
-          {s.number}.{" "}
-          {lang === "en" ? s.enName : lang === "fa" ? s.faName : s.arName}
+          <strong>
+            {s.number}.{" "}
+            {lang === "en"
+              ? s.enMeaning
+              : lang === "fa"
+                ? s.faMeaning
+                : s.arName}
+          </strong>
+          {lang !== "ar" && <span>{lang === "en" ? s.enName : s.faName}</span>}
         </a>
       ))}
     </div>
