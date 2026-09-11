@@ -1,0 +1,80 @@
+---
+import Home from "../../components/Home.astro";
+import enContent from "../../content/introduction-en.html?raw";
+import faContent from "../../content/introduction-fa.html?raw";
+export function getStaticPaths() {
+  return ["en", "fa", "ar"].map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as "en" | "fa" | "ar";
+const kind = "introduction";
+const isIntro = kind === "introduction";
+const title = isIntro
+  ? { en: "About The Furqan", fa: "آشنایی با فرقان", ar: "عن الفرقان" }[lang]
+  : {
+      en: "Translation and Reflection Method",
+      fa: "روش ترجمه و تأمل",
+      ar: "منهج الترجمة والتأمّل",
+    }[lang];
+const body = lang === "en" ? enContent : lang === "fa" ? faContent : "";
+const invocation = {
+  en: "By name of The God, The Merciful, The Compassionate",
+  fa: "به نام آن معبود یگانه فرابخشاینده فرامهربان",
+  ar: "بسم الله الرحمن الرحيم",
+}[lang];
+---
+
+<Home lang={lang} pageTitle={title}>
+  <article class="reading-page">
+    <p class="invocation">{invocation}</p>
+    <h1>{title}</h1>
+    {lang === "ar" ? (
+      <p>
+        هذه الصفحة قيد الإعداد باللغة العربية. يمكنك قراءة النسخة{" "}
+        <a href={`/en/${kind}/`}>الإنجليزية</a> أو{" "}
+        <a href={`/fa/${kind}/`}>الفارسية</a>.
+      </p>
+    ) : (
+      <div class="prose" set:html={body} />
+    )}
+    <nav
+      class="reading-next"
+      aria-label={
+        lang === "en"
+          ? "Continue reading"
+          : lang === "fa"
+            ? "ادامه مطالعه"
+            : "متابعة القراءة"
+      }
+    >
+      <a
+        class="entry"
+        href={`/${lang}/${isIntro ? "methodology" : "introduction"}/`}
+      >
+        <strong>
+          {isIntro
+            ? { en: "Our methodology", fa: "روش ترجمه و تأمل", ar: "منهجنا" }[
+                lang
+              ]
+            : {
+                en: "About The Furqan",
+                fa: "آشنایی با فرقان",
+                ar: "عن الفرقان",
+              }[lang]}
+        </strong>
+        <span>←</span>
+      </a>
+      <a class="entry" href={`/${lang}/chapters/`}>
+        <strong>
+          {
+            {
+              en: "Explore the chapters",
+              fa: "فهرست سوره‌ها",
+              ar: "فهرس السور",
+            }[lang]
+          }
+        </strong>
+        <span>←</span>
+      </a>
+    </nav>
+  </article>
+</Home>

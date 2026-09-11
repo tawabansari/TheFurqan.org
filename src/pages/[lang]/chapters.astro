@@ -1,0 +1,27 @@
+---
+import Home from "../../components/Home.astro";
+import surahs from "../../data/surahs.json";
+export function getStaticPaths() {
+  return ["en", "fa", "ar"].map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as "en" | "fa" | "ar";
+const title = {
+  en: "Chapters of the Qur’an",
+  fa: "فهرست سوره‌های قرآن",
+  ar: "سور القرآن",
+}[lang];
+---
+
+<Home lang={lang} pageTitle={title}>
+  <section class="reading-page">
+    <h1>{title}</h1>
+    <div class="chapter-list">
+      {surahs.map((s) => (
+        <a href={`/${lang}/${s.number}/`}>
+          {s.number}.{" "}
+          {lang === "en" ? s.enName : lang === "fa" ? s.faName : s.arName}
+        </a>
+      ))}
+    </div>
+  </section>
+</Home>

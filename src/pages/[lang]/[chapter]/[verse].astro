@@ -1,0 +1,25 @@
+---
+import Home from "../../../components/Home.astro";
+import references from "../../../data/references.json";
+import { copy } from "../../../data/locales";
+export function getStaticPaths() {
+  return ["en", "fa", "ar"].flatMap((lang) =>
+    references.map(([ch, v]) => ({
+      params: { lang, chapter: String(ch), verse: String(v) },
+    })),
+  );
+}
+const lang = Astro.params.lang as "en" | "fa" | "ar";
+const { chapter, verse } = Astro.params;
+const title = `${copy[lang].verse} ${chapter}:${verse}`;
+---
+
+<Home lang={lang} pageTitle={title}>
+  <article class="reading-page">
+    <h1>{title}</h1>
+    <p>{copy[lang].unavailable}</p>
+    <a class="primary" href={`/${lang}/${chapter}/#verse-${verse}`}>
+      {copy[lang].chapter} {chapter}
+    </a>
+  </article>
+</Home>

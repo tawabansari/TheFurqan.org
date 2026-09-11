@@ -1,0 +1,42 @@
+---
+import Home from "../../../components/Home.astro";
+import surahs from "../../../data/surahs.json";
+import references from "../../../data/references.json";
+import { copy } from "../../../data/locales";
+export function getStaticPaths() {
+  return ["en", "fa", "ar"].flatMap((lang) =>
+    surahs.map((s) => ({
+      params: { lang, chapter: String(s.number) },
+      props: { surah: s },
+    })),
+  );
+}
+const lang = Astro.params.lang as "en" | "fa" | "ar";
+const { surah } = Astro.props;
+const title =
+  lang === "en" ? surah.enName : lang === "fa" ? surah.faName : surah.arName;
+---
+
+<Home lang={lang} pageTitle={title}>
+  <section class="reading-page">
+    <h1>
+      {surah.number}. {title}
+    </h1>
+    <p>{copy[lang].unavailable}</p>
+    <p>
+      {copy[lang].verse}: {surah.ayahs}
+    </p>
+    {references
+      .filter((r) => r[0] === surah.number)
+      .map(([ch, v]) => (
+        <p id={`verse-${v}`}>
+          <a href={`/${lang}/${ch}/${v}/`}>
+            {copy[lang].visit} {ch}:{v}
+          </a>
+        </p>
+      ))}
+    <a class="secondary" href={`/${lang}/chapters/`}>
+      {copy[lang].chapter}
+    </a>
+  </section>
+</Home>

@@ -652,3 +652,88 @@ input[type="number"] {
 #verse-notice:empty {
   display: none;
 }
+
+.reading-page {
+  max-width: 780px;
+  margin: 3rem auto 5rem;
+}
+.reading-page h1 {
+  font-size: 2.6rem;
+  line-height: 1.35;
+  margin-bottom: 2rem;
+}
+.invocation {
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.prose {
+  font-size: 1.08rem;
+  line-height: 1.95;
+}
+.prose p {
+  margin: 1.3em 0;
+}
+.prose h2 {
+  margin-top: 2.2rem;
+}
+.prose li {
+  margin-block: 1rem;
+}
+.reading-page a:not(.entry):not(.primary) {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.intro-ref {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 0.9em;
+}
+.reading-next {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3rem;
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+.reading-next .entry {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: none;
+}
+.menu-grid a {
+  display: block;
+  padding: 9px 0;
+}
+.chapter-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.quote blockquote {
+  margin: 0;
+}
+.quote-label {
+  font-size: 0.85rem;
+}
+.reading-page [id] {
+  scroll-margin-top: 2rem;
+}
+@media (max-width: 600px) {
+  .reading-next,
+  .chapter-list {
+    grid-template-columns: 1fr;
+  }
+  .reading-page h1 {
+    font-size: 2rem;
+  }
+  .reading-page {
+    margin-top: 2rem;
+  }
+  .quote-quran {
+    font-size: 1.35em;
+  }
+}

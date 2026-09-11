@@ -47,3 +47,15 @@ Search has its own future development phase. Keep search data local to this proj
 In English, the definite article is part of divine names: write **The God** and **The One God** with capitalized **The**.
 
 The search panel presents chapter/verse navigation, filters (All initially selected), the query, then results. Filter hints change without clearing the query. Verse numbers are corrected to the chapter range on blur or submission, with a localized explanation.
+
+## Introduction, methodology and verse references
+
+The English and Farsi introduction and methodology were adapted from the original Forqan source files. Their prose is in `src/content/`; legacy styles and scripts were not imported. Arabic article editions currently show an explicit preparation notice.
+
+Keep the introduction address `/[lang]/introduction/`, with the descriptive heading “About The Furqan.” The methodology lives at `/[lang]/methodology/`; both lead to `/[lang]/chapters/`.
+
+All 114 chapters have placeholder pages per language. The 11 distinct cited verses currently have placeholders generated from `src/data/references.json`. Add further references there until the complete verse corpus is introduced. A verse uses `/[lang]/[chapter]/[verse]/`; its chapter anchor is `#verse-[verse]`. Reference links are ordinary anchors enhanced with a preview dialog. Modified clicks remain normal browser navigation.
+
+Invocation rule: English **By name of The God, The Merciful, The Compassionate**; Farsi **به نام آن معبود یگانه فرابخشاینده فرامهربان**.
+
+Development `noindex` remains enabled. Review it before public launch; a page title alone does not make content indexable.
