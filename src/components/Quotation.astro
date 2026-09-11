@@ -1,0 +1,25 @@
+---
+/** Labels and references are required so meaning never depends on color alone. */
+interface Props {
+  kind: "quran" | "hadith" | "source";
+  label: string;
+  reference: string;
+  language?: string;
+  direction?: "rtl" | "ltr";
+}
+const {
+  kind,
+  label,
+  reference,
+  language = "ar",
+  direction = "rtl",
+} = Astro.props;
+---
+
+<figure class="quote">
+  <span class="quote-label">{label}</span>
+  <blockquote class={`quote-${kind}`} lang={language} dir={direction}>
+    <slot />
+  </blockquote>
+  <figcaption class="quote-label">{reference}</figcaption>
+</figure>
