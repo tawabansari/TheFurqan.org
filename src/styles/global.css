@@ -116,22 +116,12 @@ svg {
   gap: 24px;
 }
 .brand {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.3;
-  min-width: 130px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:2px; min-width:145px; width:max-content; flex-shrink:0; text-align:center;
 }
-.brand strong {
-  font-family: Georgia, serif;
-  font-size: 1.6rem;
-  font-weight: 500;
-}
-.brand span {
-  font-family: var(--font-arabic);
-  font-size: 1rem;
-  color: var(--muted);
-  margin-top: 3px;
-}
+.brand .brand-english {font-family:Georgia,serif;font-size:1.55rem;line-height:1.2;color:var(--text);white-space:nowrap}
+.brand .brand-arabic {font-family:var(--font-arabic);font-size:1.65rem;line-height:1.35;color:var(--accent);white-space:nowrap}
+html[dir=rtl] .brand-arabic {order:-1}
 .tools {
   margin-inline-start: auto;
   display: flex;
@@ -425,7 +415,7 @@ dialog::backdrop {
   color: var(--muted);
 }
 select,
-input[type="number"] {
+#verse {
   display: block;
   width: 100%;
   background: var(--bg);
@@ -802,3 +792,7 @@ input[type="number"] {
   #search .fields label:first-child { grid-column:1/-1; }
   #search .fields .primary { grid-column:auto; min-height:44px; }
 }
+
+#search .fields label {display:flex;flex-direction:column;gap:8px;line-height:1.65;padding-top:3px}
+#search .fields label > bdi {display:inline}
+#search .fields select {margin-top:0}

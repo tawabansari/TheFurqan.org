@@ -67,23 +67,8 @@ const icon = {
           </svg>
         </button>
         <a class="brand" href={`/${lang}/`} aria-label="The Furqan — الفرقان">
-          {lang === "en" ? (
-            <>
-              <strong>The Furqan</strong>
-              <span lang="ar" dir="rtl">
-                الفرقان
-              </span>
-            </>
-          ) : (
-            <>
-              <strong lang="ar" style="font-family:var(--font-arabic)">
-                الفرقان
-              </strong>
-              <span lang="en" dir="ltr">
-                The Furqan
-              </span>
-            </>
-          )}
+          <span class="brand-english" lang="en" dir="ltr">The Furqan</span>
+          <span class="brand-arabic" lang="ar" dir="rtl">الفرقان</span>
         </a>
         <div class="tools">
           <button class="plain" data-open="search" aria-label={c.search}>
@@ -275,23 +260,23 @@ const icon = {
             <select id="chapter">
               {surahs.map((s) => (
                 <option value={s.number}>
-                  {s.number}.{" "}
+                  {new Intl.NumberFormat(lang, {useGrouping:false, numberingSystem: lang === "ar" ? "arab" : lang === "fa" ? "arabext" : "latn"}).format(s.number)}.{" "}
                   {lang === "en"
-                    ? `${s.enMeaning} — ${s.enName}`
+                    ? `${s.enName} — ${s.enMeaning}`
                     : lang === "fa"
-                      ? `${s.faMeaning} — ${s.faName}`
+                      ? `${s.faName} — ${s.faMeaning}`
                       : s.arName}
                 </option>
               ))}
             </select>
           </label>
           <label>
-            {c.verse} · <bdi id="verse-range">1–7</bdi>
+            <span>{c.verse} · <bdi id="verse-range">1–7</bdi></span>
             <input
               id="verse"
-              type="number"
-              min="1"
-              max="7"
+              type="text"
+              data-max="7"
+              dir="ltr"
               value="1"
               required
               inputmode="numeric"
@@ -490,10 +475,10 @@ const icon = {
           ),
         );
       const formatNumber = (n) =>
-        new Intl.NumberFormat(lang, { useGrouping: false }).format(n);
+        new Intl.NumberFormat(lang, {useGrouping:false, numberingSystem: lang === "ar" ? "arab" : lang === "fa" ? "arabext" : "latn"}).format(n);
       function chapterChanged() {
         const max = surahs[Number($("chapter").value) - 1].ayahs;
-        $("verse").max = max;
+        $("verse").dataset.max = String(max);
         $("verse").value = "1";
         $("verse-range").textContent =
           formatNumber(1) + "–" + formatNumber(max);
@@ -503,8 +488,9 @@ const icon = {
       chapterChanged();
       function clampVerse() {
         const input = $("verse");
-        const raw = input.valueAsNumber;
-        const max = Number(input.max);
+        const normalized = normalize(input.value.trim());
+        const raw = normalized === "" ? NaN : Number(normalized);
+        const max = Number(input.dataset.max);
         const verse = Number.isFinite(raw)
           ? Math.max(1, Math.min(max, Math.trunc(raw)))
           : 1;
