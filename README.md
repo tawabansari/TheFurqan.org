@@ -59,3 +59,9 @@ All 114 chapters have placeholder pages per language. The 11 distinct cited vers
 Invocation rule: English **By name of The God, The Merciful, The Compassionate**; Farsi **به نام آن معبود یگانه فرابخشاینده فرامهربان**.
 
 Development `noindex` remains enabled. Review it before public launch; a page title alone does not make content indexable.
+
+## Quran text source
+
+All Arabic Quran quotations must come from `src/data/quran-uthmani.txt`, the user-supplied Tanzil Uthmani Minimal 1.1 master. Preserve spelling, marks, and its copyright block exactly. Use `quranText("3:7")` in Astro or `{{quran:3:7}}` in imported article HTML, rendered through `renderQuran`. Excerpts must be exact substrings of the master and labeled as excerpts. Never paste alternate Quran text into content or use quotation slots for Quran text. Some chapter-opening records include the basmala; do not silently remove it.
+
+Source: [Tanzil Project](https://tanzil.net), Copyright 2007–2026, Creative Commons Attribution 3.0 with the supplied verbatim-use notice. Article translations are separate editorial content.

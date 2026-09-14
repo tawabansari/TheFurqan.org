@@ -1,4 +1,5 @@
 ---
+import { quranText, renderQuran } from "../../lib/quran";
 import Home from "../../components/Home.astro";
 import enContent from "../../content/methodology-en.html?raw";
 import faContent from "../../content/methodology-fa.html?raw";
@@ -15,11 +16,13 @@ const title = isIntro
       fa: "روش ترجمه و تأمل",
       ar: "منهج الترجمة والتأمّل",
     }[lang];
-const body = lang === "en" ? enContent : lang === "fa" ? faContent : "";
+const body = renderQuran(
+  lang === "en" ? enContent : lang === "fa" ? faContent : "",
+);
 const invocation = {
   en: "By name of The God, The Merciful, The Compassionate",
   fa: "به نام آن معبود یگانه فرابخشاینده فرامهربان",
-  ar: "بسم الله الرحمن الرحيم",
+  ar: quranText("1:1"),
 }[lang];
 ---
 

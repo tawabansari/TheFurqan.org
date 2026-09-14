@@ -1,15 +1,15 @@
 @import url("/fonts/fonts.css");
 :root {
   color-scheme: light;
-  --bg: #f8fafc;
-  --surface: #fff;
-  --soft: #edf3f4;
-  --text: #172630;
-  --muted: #52616b;
-  --accent: #006b68;
-  --border: #d6e0e5;
-  --quran: #006b68;
-  --shadow: 0 24px 80px #17263020;
+  --bg: #f7f4ec;
+  --surface: #fbf9f3;
+  --soft: #efeade;
+  --text: #202b38;
+  --muted: #59616b;
+  --accent: #785b25;
+  --border: #d7cfbf;
+  --quran: var(--text);
+  --shadow: 0 24px 80px #202b3820;
   --font-body: Inter, system-ui, sans-serif;
   --font-arabic: Vazirmatn, serif;
   --font-quran: "Amiri Quran", serif;
@@ -17,14 +17,14 @@
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #101820;
-  --surface: #182530;
-  --soft: #20333d;
-  --text: #edf2f5;
-  --muted: #acbbc5;
-  --accent: #73d8ce;
-  --border: #344754;
-  --quran: #73d8ce;
+  --bg: #101827;
+  --surface: #192437;
+  --soft: #243147;
+  --text: #eeeae1;
+  --muted: #adb5c0;
+  --accent: #ceb477;
+  --border: #354156;
+  --quran: var(--text);
   --shadow: 0 24px 80px #0006;
 }
 * {
@@ -124,8 +124,8 @@ svg {
   color: var(--accent);
   white-space: nowrap;
 }
-html[dir="rtl"] .brand-arabic {
-  order: -1;
+html[dir="rtl"] .brand {
+  flex-direction: row-reverse;
 }
 
 .circle {
@@ -377,7 +377,7 @@ dialog::backdrop {
   margin-bottom: 24px;
 }
 .dialog-head h2 {
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 .search-input {
   width: 100%;
@@ -463,8 +463,8 @@ select,
 .quote-quran {
   font-family: var(--font-quran);
   color: var(--quran);
-  font-size: 1.7em;
-  line-height: 2.2;
+  font-size: 1.15em;
+  line-height: 2;
 }
 .quote-hadith,
 .quote-source {
@@ -689,7 +689,7 @@ select,
     margin-top: 2rem;
   }
   .quote-quran {
-    font-size: 1.35em;
+    font-size: 1.15em;
   }
 }
 
@@ -795,9 +795,9 @@ select,
 }
 .brand {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 0;
+  gap: 0.45rem;
   min-width: 130px;
   flex-shrink: 0;
 }
@@ -805,7 +805,7 @@ select,
   font-size: 1.35rem;
 }
 .brand .brand-arabic {
-  font-size: 1.45rem;
+  font-size: 1.35rem;
 }
 .language-control {
   margin-inline-start: auto;
@@ -953,18 +953,19 @@ select,
   }
   .brand {
     min-width: 0;
-    align-items: flex-start;
+    align-items: center;
     justify-self: start;
   }
   .brand .brand-english {
-    font-size: 1.13rem;
+    font-size: 1rem;
   }
   .brand .brand-arabic {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
   .language-control {
     grid-column: 3;
     grid-row: 1;
+    justify-self: end;
     margin: 0;
     padding: 8px 4px;
     font-size: 0.8rem;
@@ -1005,5 +1006,48 @@ select,
   }
   .brand .brand-english {
     font-size: 1rem;
+  }
+}
+
+.brand-separator {
+  color: var(--muted);
+  font-size: 0.85em;
+  font-weight: 400;
+}
+.quote {
+  margin: 2rem 0;
+}
+.quote > p {
+  margin: 1rem 0 0.7rem;
+}
+.quote .quote-label {
+  display: block;
+  margin-top: 0.75rem;
+}
+.quote-label a,
+.intro-ref {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.source-credit {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+@media (max-width: 700px) {
+  .brand {
+    gap: 0.25rem;
+  }
+  .header {
+    column-gap: 6px;
+  }
+}
+@media (max-width: 360px) {
+  .header {
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+  .language-control {
+    grid-row: 3;
+    grid-column: 1 / -1;
   }
 }

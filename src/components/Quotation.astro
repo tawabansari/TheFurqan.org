@@ -1,9 +1,11 @@
 ---
+import { quranText } from "../lib/quran";
 /** Labels and references are required so meaning never depends on color alone. */
 interface Props {
   kind: "quran" | "hadith" | "source";
   label: string;
   reference: string;
+  excerpt?: string;
   language?: string;
   direction?: "rtl" | "ltr";
 }
@@ -11,15 +13,18 @@ const {
   kind,
   label,
   reference,
+  excerpt,
   language = "ar",
   direction = "rtl",
 } = Astro.props;
 ---
 
 <figure class="quote">
-  <span class="quote-label">{label}</span>
   <blockquote class={`quote-${kind}`} lang={language} dir={direction}>
-    <slot />
+    {kind === "quran" ? quranText(reference, excerpt) : <slot />}
   </blockquote>
-  <figcaption class="quote-label">{reference}</figcaption>
+  <slot name="translation" />
+  <figcaption class="quote-label">
+    {label} · {reference}
+  </figcaption>
 </figure>
