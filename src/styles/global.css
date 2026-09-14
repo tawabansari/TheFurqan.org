@@ -8,7 +8,7 @@
   --muted: #59616b;
   --accent: #785b25;
   --border: #d7cfbf;
-  --quran: var(--text);
+  --quran: #785b25;
   --shadow: 0 24px 80px #202b3820;
   --font-body: Inter, system-ui, sans-serif;
   --font-arabic: Vazirmatn, serif;
@@ -24,7 +24,7 @@
   --muted: #adb5c0;
   --accent: #ceb477;
   --border: #354156;
-  --quran: var(--text);
+  --quran: #ceb477;
   --shadow: 0 24px 80px #0006;
 }
 * {
@@ -119,6 +119,7 @@ svg {
 }
 .brand .brand-arabic {
   font-family: var(--font-arabic);
+  transform: translateY(0.09em);
   font-size: 1.65rem;
   line-height: 1.35;
   color: var(--accent);
@@ -1028,10 +1029,6 @@ select,
 .intro-ref {
   direction: ltr;
   unicode-bidi: isolate;
-}
-.source-credit {
-  font-size: 0.75rem;
-  color: var(--muted);
 }
 
 @media (max-width: 700px) {

@@ -2,6 +2,7 @@
 import { quranText, renderQuran } from "../../lib/quran";
 import Home from "../../components/Home.astro";
 import enContent from "../../content/methodology-en.html?raw";
+import arContent from "../../content/methodology-ar.html?raw";
 import faContent from "../../content/methodology-fa.html?raw";
 export function getStaticPaths() {
   return ["en", "fa", "ar"].map((lang) => ({ params: { lang } }));
@@ -17,7 +18,7 @@ const title = isIntro
       ar: "منهج الترجمة والتأمّل",
     }[lang];
 const body = renderQuran(
-  lang === "en" ? enContent : lang === "fa" ? faContent : "",
+  lang === "en" ? enContent : lang === "fa" ? faContent : arContent,
 );
 const invocation = {
   en: "By name of The God, The Merciful, The Compassionate",
@@ -30,15 +31,7 @@ const invocation = {
   <article class="reading-page">
     <p class="invocation">{invocation}</p>
     <h1>{title}</h1>
-    {lang === "ar" ? (
-      <p>
-        هذه الصفحة قيد الإعداد باللغة العربية. يمكنك قراءة النسخة{" "}
-        <a href={`/en/${kind}/`}>الإنجليزية</a> أو{" "}
-        <a href={`/fa/${kind}/`}>الفارسية</a>.
-      </p>
-    ) : (
-      <div class="prose" set:html={body} />
-    )}
+    <div class="prose" set:html={body} />
     <nav
       class="reading-next"
       aria-label={

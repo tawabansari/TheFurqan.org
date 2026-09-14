@@ -50,7 +50,7 @@ The search panel presents chapter/verse navigation, filters (All initially selec
 
 ## Introduction, methodology and verse references
 
-The English and Farsi introduction and methodology were adapted from the original Forqan source files. Their prose is in `src/content/`; legacy styles and scripts were not imported. Arabic article editions currently show an explicit preparation notice.
+The English and Farsi introduction and methodology were adapted from the original Forqan source files. Their prose is in `src/content/`; legacy styles and scripts were not imported. Arabic editions are adapted from the Farsi prose. In Arabic, Quran quotations use the master text directly without a translation beneath; commentary remains separate.
 
 Keep the introduction address `/[lang]/introduction/`, with the descriptive heading “About The Furqan.” The methodology lives at `/[lang]/methodology/`; both lead to `/[lang]/chapters/`.
 
